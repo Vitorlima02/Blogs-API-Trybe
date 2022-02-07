@@ -15,7 +15,7 @@ const createCategory = async (data) => {
     const { error } = schemaCategory.validate(data);
 
     if (error) return responseValidate(400, error.message);
-    
+
     const newCategory = await Categories.create(data);
 
     return responseValidate(201, newCategory);
@@ -24,6 +24,17 @@ const createCategory = async (data) => {
   }
 };
 
+const categoryGetAll = async () => {
+  try {
+    const categories = await Categories.findAll();
+
+    return responseValidate(200, categories);
+  } catch (error) {
+    return responseValidate(500, error.message);
+  }
+};
+
 module.exports = {
   createCategory,
+  categoryGetAll,
 };
