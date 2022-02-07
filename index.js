@@ -10,6 +10,7 @@ app.use(bodyParser.json());
 app.route('/user').post(userController.createUser);
 app.route('/login').post(userController.userLogin);
 app.route('/user').get(auth, userController.userGetAll);
+app.route('/user/:id').get(auth, userController.getUserById);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 

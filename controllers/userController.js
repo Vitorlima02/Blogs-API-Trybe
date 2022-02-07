@@ -28,8 +28,18 @@ const userGetAll = async (req, res) => {
   return res.status(users.status).json(users.message);
 };
 
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+  const user = await UserService.getUserById(id);
+
+  if (user.status >= 400) return res.status(user.status).json({ message: user.message });
+
+  return res.status(user.status).json(user.message);
+};
+
 module.exports = {
   createUser,
   userLogin,
   userGetAll,
+  getUserById,
 };
