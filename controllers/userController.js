@@ -20,7 +20,16 @@ const userLogin = async (req, res) => {
   return res.status(user.status).json({ token: user.message });
 };
 
+const userGetAll = async (req, res) => {
+  const users = await UserService.userGetAll();
+
+  if (users.status >= 400) return res.status(users.status).json({ message: users.message });
+
+  return res.status(users.status).json(users.message);
+};
+
 module.exports = {
   createUser,
   userLogin,
+  userGetAll,
 };

@@ -35,7 +35,6 @@ const createUser = async (data) => {
     const newUser = await User.create(data);
 
     const jwtConfig = {
-      expiresIn: '3d',
       algorithm: 'HS256',
     };
 
@@ -69,9 +68,20 @@ const userLogin = async (data) => {
   }
 };
 
+const userGetAll = async () => {
+  try {
+    const allUsers = await User.findAll();
+
+    return responseValidate(200, allUsers);
+  } catch (error) {
+    return responseValidate(500, error.message);
+  }
+};
+
 module.exports = {
   createUser,
   userLogin,
+  userGetAll,
 };
 
 // Consultei o repositório do Michael para função do responseValidate e sua funcionalidade
