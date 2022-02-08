@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const { BlogPost, Categories } = require('../models');
+const { BlogPost, Categories, User } = require('../models');
 
 const blogPostSchema = Joi.object({
   title: Joi.string().required(),
@@ -40,6 +40,28 @@ const createBlogPost = async (user, data) => {
   }
 };
 
+const getAllPosts = async () => {
+  try {
+    const posts = await BlogPost.findAll({
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Categories, as: 'categories', through: { attributes: [] } },
+      ],
+    });
+  
+    return responseValidate(200, posts);
+  } catch (error) {
+    responseValidate(500, error.message);
+  }
+};
+
 module.exports = {
   createBlogPost,
+  getAllPosts,
 };
+
+// Referência para o include do findAll
+// https://github.com/sequelize/sequelize/issues/7541
+
+// Referência para o exclude do password
+// https://stackoverflow.com/questions/31679838/sequelizejs-findall-exclude-field
